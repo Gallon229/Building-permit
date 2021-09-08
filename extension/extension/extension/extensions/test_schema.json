@@ -1,0 +1,82 @@
+{
+  "type": "CityJSON_Extension",
+  "name": "Urban_planning_extensions",
+  "uri": "file://D:/TUD/thesis/fixed_file/test_schema.json",
+  "version": "1.0.1",
+  "description": "Extension for the urban building permit checking",
+
+  "extraAttributes": {
+    "Building": {
+      "+height_valid": { "type": "integer" },
+      "+groundHeight": { "type": "number" },
+      "+non_residential": { "type": "integer" },
+      "+total_area": { "type": "number" },
+      "+min_bicycle_parking_spaces": { "type": "number" },
+      "+min_car_parking_spaces": { "type": "number" },
+      "+function1": { "type": "string" },
+      "+function2": { "type": "string" },
+      "+discount_factor": { "type": "number" }
+    },
+    "LandUse": {
+      "+zone": { "type": "string"}
+      }
+  },
+  "extraCityObjects": {
+    "+Room": {
+      "allOf": [
+        { "$ref": "../cityobjects.schema.json#/_AbstractCityObject" },
+        {
+          "properties": {
+            "type": { "enum": [ "+Room" ] },
+            "toplevel": {"type": "boolean"},
+            "attributes": {
+              "properties": {
+                "building_id": { "type": "string" },
+                "area": { "type": "number" }
+              }
+            },
+            "geometry": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  { "$ref": "../geomprimitives.schema.json#/MultiPoint" }
+                ]
+              }
+            }
+          },
+          "required": [ "type", "toplevel",  "geometry" ]
+        }
+      ]
+    },
+     "+Regulation": {
+      "allOf": [
+        { "$ref": "../cityobjects.schema.json#/_AbstractCityObject" },
+        {
+          "properties": {
+            "type": { "enum": [ "+Regualation" ] },
+            "toplevel": {"type": "boolean"},
+            "attributes": {
+              "properties": {
+                 "function": { "type": "string" },
+                 "Validity": {"type": "boolean"},
+                 "enactmentDate": { "type": "string" },
+                 "expirationDate": { "type": "string" },
+                 "adminLevel": { "type": "string" },
+                 "Administration_area":  { "type": "string" }
+              }
+            },
+            "geometry": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  { "$ref": "../geomprimitives.schema.json#/MultiSurface" }
+                ]
+              }
+            }
+          },
+          "required": [ "type", "toplevel", "geometry" ]
+        }
+      ]
+    }
+  }
+}
